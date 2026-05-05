@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 /* Google Fonts: Zarif ve modern fontlar */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
 
@@ -98,7 +98,7 @@ footer {
     color: var(--gumus);
     padding: 3rem 0;
 }
-=======
+
 /* Google Fonts: Zarif ve modern fontlar */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
 
@@ -219,4 +219,3 @@ footer {
     .efsane-kart:hover img {
         filter: grayscale(0%); /* Üzerine gelince renklenir (veya tam tersi) */
     }
->>>>>>> Stashed changes

@@ -38,12 +38,12 @@
             <a class="navbar-brand fw-bold" href="index.html">Sima Nur</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Hakkımda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="hakkimda.html">Hakkımda</a></li>
                     <li class="nav-item"><a class="nav-link" href="cv.html">CV</a></li>
                     <li class="nav-item"><a class="nav-link" href="sehir.html">Şehrim</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="ilgi-alanlarim.html">İlgi Alanlarım</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ilgialanlarim.html">İlgi Alanlarım</a></li>
                     <li class="nav-item"><a class="nav-link" href="iletisim.html">İletişim</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Giriş</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Giriş</a></li>
                 </ul>
             </div>
         </div>
@@ -83,33 +83,50 @@
         </div>
     </main>
 
-    <script>
-        // Favori Film/Dizi Veri Seti (Dışarıdan çekiliyormuş gibi)
-        const myMedia = [
-            { title: "Interstellar", type: "Film", img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=400", desc: "Bilim kurgu ve zamanın ötesinde bir yolculuk." },
-            { title: "Mr. Robot", type: "Dizi", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400", desc: "Siber güvenlik ve toplum eleştirisi üzerine eşsiz bir yapım." },
-            { title: "Inception", type: "Film", img: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=400", desc: "Rüyalar ve bilinçaltının karmaşık labirentleri." }
-        ];
+    <div class="container mt-5">
+    <h2 class="section-title text-center w-100" style="color: #415A77; border-bottom: 2px solid #415A77;">Favori Filmlerim ve Dizilerim </h2>
+    <div class="row g-4 mt-3" id="movie-list">
+        <div class="text-center text-silver">Filmler yükleniyor, lütfen bekleyiniz...</div>
+    </div>
+</div>
 
-        function loadMedia() {
-            const container = document.getElementById('media-container');
-            myMedia.forEach(item => {
-                container.innerHTML += `
-                    <div class="col">
-                        <div class="card media-card h-100 shadow-sm border-0">
-                            <img src="${item.img}" class="card-img-top media-img" alt="${item.title}">
-                            <div class="card-body bg-dark text-white text-center">
-                                <h6 class="fw-bold mb-1">${item.title}</h6>
-                                <span class="badge bg-secondary mb-2">${item.type}</span>
-                                <p style="font-size: 0.8rem;" class="text-secondary mb-0">${item.desc}</p>
-                            </div>
+<script>
+    async function kendiFilmlerimiGetir() {
+    const apiKey = 'fe196e8302272ba1efbd86dcbcb23795';
+    
+    const kendiFilmListem = [157336, 122, 673,]; 
+    
+    const container = document.getElementById('movie-list');
+    container.innerHTML = ""; // Temizle
+
+    // Tüm ID'ler için tek tek istek atıyoruz
+    for (let id of kendiFilmListem) {
+        const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=tr-TR`;
+        
+        try {
+            const response = await fetch(url);
+            const film = await response.json();
+
+            const filmKarti = `
+                <div class="col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm" style="background-color: #1B263B; color: #E0E1DD; border-radius: 15px; overflow: hidden;">
+                        <img src="https://image.tmdb.org/t/p/w500${film.poster_path}" class="card-img-top" alt="${film.title}" style="height: 300px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h6 class="fw-bold small mb-1 text-truncate">${film.title}</h6>
+                            <p class="text-secondary mb-0" style="font-size: 0.7rem;">⭐ Puan: ${film.vote_average.toFixed(1)}</p>
                         </div>
                     </div>
-                `;
-            });
+                </div>
+            `;
+            container.innerHTML += filmKarti;
+        } catch (error) {
+            console.error(id + " ID'li film bulunamadı.");
         }
+    }
+}
 
-        window.onload = loadMedia;
-    </script>
+document.addEventListener("DOMContentLoaded", kendiFilmlerimiGetir);
+</script>
+    
 </body>
 </html>

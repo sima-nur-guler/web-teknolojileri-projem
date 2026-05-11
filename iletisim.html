@@ -2,10 +2,31 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İletişim | Sima Nur GÜLER</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* GECE MAVİSİ TEMASI İÇİN RENKLER */
+        :root { 
+            --gece-mavisi: #0D1B2A; 
+            --derin-mavi: #1B263B; 
+            --gumus: #E0E1DD; 
+            --acik-mavi: #415A77; 
+            --buton-yesil: #2A9D8F;
+        }
+        
+        body { background-color: var(--gece-mavisi); color: var(--gumus); font-family: 'Poppins', sans-serif; }
+        .navbar { background-color: var(--gece-mavisi) !important; border-bottom: 1px solid var(--acik-mavi); }
+        .nav-link.active { font-weight: bold; color: #fff !important; border-bottom: 2px solid #fff; }
+        .section-title { border-bottom: 3px solid var(--acik-mavi); display: inline-block; padding-bottom: 10px; color: var(--gumus); }
+        
+        /* Form Kutusu (Input) Stilleri */
+        .form-control { background-color: rgba(224, 225, 221, 0.1); color: #fff; border: 1px solid var(--acik-mavi); }
+        .form-control:focus { background-color: rgba(224, 225, 221, 0.15); color: #fff; border-color: var(--gumus); box-shadow: 0 0 0 0.25rem rgba(224, 225, 221, 0.25); }
+    </style>
     <script>
+        
         function formKontrol() {
             var ad = document.forms["iletisimFormu"]["ad"].value;
             var email = document.forms["iletisimFormu"]["email"].value;
@@ -23,11 +44,13 @@
         }
     </script>
 </head>
-<body class="bg-light">
-    <!-- NAVBAR -->
-   <nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.html">Sima Nur</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="hakkimda.html">Hakkımda</a></li>
@@ -41,33 +64,45 @@
         </div>
     </nav>
 
-    <div class="container mt-5">
-        <h2 class="section-title text-center">Bana Ulaşın</h2>
+    <div class="container mt-5 mb-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title">Bana Ulaşın</h2>
+            <p class="small text-secondary mt-2">Projeler, işbirlikleri veya sadece kahve sohbeti için mesaj bırakabilirsiniz.</p>
+        </div>
+        
         <div class="row justify-content-center">
-            <div class="col-md-6 bg-white p-4 rounded-4 shadow-sm">
-                <form name="iletisimFormu" action="gonder.php" onsubmit="return formKontrol()" method="post">
-                    <div class="mb-3">
-                        <label class="form-label">Adınız Soyadınız:</label>
-                        <input type="text" name="ad" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">E-posta Adresiniz:</label>
-                        <input type="text" name="email" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Mesajınız:</label>
-                        <textarea name="mesaj" class="form-control" rows="4"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Gönder</button>
-                    <button type="reset" class="btn btn-outline-secondary w-100 mt-2">Temizle</button>
-                    <div class="text-center mt-4">
-                      <a href="index.html" class="text-decoration-none text-secondary small">
-                      <i class="bi bi-arrow-left"></i> Ana Sayfaya Dön
-                      </a>
-                    </div>
-                </form>
+            <div class="col-md-7">
+                <div class="card p-4 p-md-5 border-0 shadow-lg" style="background-color: var(--derin-mavi); border-radius: 20px;">
+                    
+                    <form name="iletisimFormu" action="gonder.php" onsubmit="return formKontrol()" method="POST">
+                        <div class="mb-4">
+                            <label class="form-label text-silver fw-bold">Adınız Soyadınız:</label>
+                            <input type="text" name="ad" class="form-control rounded-3 py-2">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-silver fw-bold">E-posta Adresiniz:</label>
+                            <input type="email" name="email" class="form-control rounded-3 py-2">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-silver fw-bold">Mesajınız:</label>
+                            <textarea name="mesaj" class="form-control rounded-3" rows="5"></textarea>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn fw-bold py-2 shadow-sm" style="background-color: var(--buton-yesil); color: white; border-radius: 10px;">
+                                Gönder <i class="bi bi-send ms-1"></i>
+                            </button>
+                            <button type="reset" class="btn btn-outline-light py-2" style="border-radius: 10px;">
+                                Temizle
+                            </button>
+                        </div>
+                        
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

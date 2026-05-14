@@ -144,3 +144,8 @@ footer {
     font-weight: bold;
 }
 
+.btn[data-bs-toggle="modal"]:hover {
+    transform: translateY(-5px);
+    background-color: var(--acik-mavi) !important;
+}
+

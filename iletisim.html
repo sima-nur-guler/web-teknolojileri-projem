@@ -26,23 +26,32 @@
         .form-control:focus { background-color: rgba(224, 225, 221, 0.15); color: #fff; border-color: var(--gumus); box-shadow: 0 0 0 0.25rem rgba(224, 225, 221, 0.25); }
     </style>
     <script>
-        
-        function formKontrol() {
-            var ad = document.forms["iletisimFormu"]["ad"].value;
-            var email = document.forms["iletisimFormu"]["email"].value;
-            var mesaj = document.forms["iletisimFormu"]["mesaj"].value;
+    // 1. BUTON: NATIVE JAVASCRIPT DENETİMİ
+    function nativeJSKontrol() {
+        var ad = document.getElementById("ad").value;
+        var email = document.getElementById("email").value;
+        var sehir = document.getElementById("sehir").value;
+        var mesaj = document.getElementById("mesaj").value;
+        var kurallar = document.getElementById("kurallar").checked;
 
-            if (ad == "" || email == "" || mesaj == "") {
-                alert("Lütfen tüm alanları doldurunuz!");
-                return false;
-            }
-            if (email.indexOf("@") == -1) {
-                alert("Geçersiz e-posta adresi!");
-                return false;
-            }
-            return true;
+        if (ad === "" || email === "" || sehir === "" || mesaj === "") {
+            alert("[Native JS] Lütfen tüm boşlukları doldurunuz ve şehir seçiniz.");
+            return;
         }
-    </script>
+        if (email.indexOf("@") === -1) {
+            alert("[Native JS] Geçersiz e-posta formatı!");
+            return;
+        }
+        if (!kurallar) {
+            alert("[Native JS] Lütfen kuralları kabul ediniz!");
+            return;
+        }
+        // Sorun yoksa formu yolla
+        document.getElementById("myForm").submit();
+    }
+
+    mount('#iletisimUygulamasi')
+</script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top">
@@ -70,39 +79,69 @@
             <p class="small text-secondary mt-2">Projeler, işbirlikleri veya sadece kahve sohbeti için mesaj bırakabilirsiniz.</p>
         </div>
         
-        <div class="row justify-content-center">
-            <div class="col-md-7">
-                <div class="card p-4 p-md-5 border-0 shadow-lg" style="background-color: var(--derin-mavi); border-radius: 20px;">
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div class="container mt-5 mb-5" id="iletisimUygulamasi">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-4 p-md-5 border-0 shadow-lg" style="background-color: var(--derin-mavi); border-radius: 20px;">
+                <h4 class="text-white mb-4 border-bottom border-secondary pb-3">İletişim Formu</h4>
+                
+                <form name="iletisimFormu" id="myForm" action="gonder.php" method="POST">
                     
-                    <form name="iletisimFormu" action="gonder.php" onsubmit="return formKontrol()" method="POST">
-                        <div class="mb-4">
-                            <label class="form-label text-silver fw-bold">Adınız Soyadınız:</label>
-                            <input type="text" name="ad" class="form-control rounded-3 py-2">
+                    <div class="mb-3">
+                        <label class="form-label text-silver fw-bold">Adınız Soyadınız:</label>
+                        <input type="text" name="ad" id="ad" v-model="form.ad" class="form-control bg-dark text-white border-secondary">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-silver fw-bold">E-posta Adresiniz:</label>
+                        <input type="email" name="email" id="email" v-model="form.email" class="form-control bg-dark text-white border-secondary">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3 text-silver">
+                            <label class="form-label fw-bold d-block">Cinsiyetiniz:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="cinsiyet" id="kadin" value="Kadın" v-model="form.cinsiyet">
+                                <label class="form-check-label" for="kadin">Kadın</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="cinsiyet" id="erkek" value="Erkek" v-model="form.cinsiyet">
+                                <label class="form-check-label" for="erkek">Erkek</label>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label text-silver fw-bold">E-posta Adresiniz:</label>
-                            <input type="email" name="email" class="form-control rounded-3 py-2">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold text-silver">Bulunduğunuz Şehir:</label>
+                            <select name="sehir" id="sehir" v-model="form.sehir" class="form-select bg-dark text-white border-secondary">
+                                <option value="">Şehir Seçiniz...</option>
+                                <option value="Sakarya">Sakarya</option>
+                                <option value="İstanbul">İstanbul</option>
+                                <option value="Diğer">Diğer</option>
+                            </select>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label text-silver fw-bold">Mesajınız:</label>
-                            <textarea name="mesaj" class="form-control rounded-3" rows="5"></textarea>
-                        </div>
-                        
-                        <div class="d-grid gap-2 mt-4">
-                            <button type="submit" class="btn fw-bold py-2 shadow-sm" style="background-color: var(--buton-yesil); color: white; border-radius: 10px;">
-                                Gönder <i class="bi bi-send ms-1"></i>
-                            </button>
-                            <button type="reset" class="btn btn-outline-light py-2" style="border-radius: 10px;">
-                                Temizle
-                            </button>
-                        </div>
-                        
-                    </form>
-                </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-silver fw-bold">Mesajınız:</label>
+                        <textarea name="mesaj" id="mesaj" v-model="form.mesaj" class="form-control bg-dark text-white border-secondary" rows="4"></textarea>
+                    </div>
+
+                    <div class="mb-4 form-check text-silver">
+                        <input type="checkbox" class="form-check-input" name="kurallar" id="kurallar" value="Onaylandı" v-model="form.kurallar">
+                        <label class="form-check-label small" for="kurallar">Form verilerimin işlenmesini kabul ediyorum.</label>
+                    </div>
+
+                    <div class="d-flex gap-3" text-center >
+                        <button type="button" onclick="nativeJSKontrol()" class="btn btn-outline-info w-50 fw-bold rounded-3">
+                        Gönder
+                        </button>
+
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+</div>
 </html>
